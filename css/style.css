@@ -323,3 +323,85 @@ select:focus {
         transform: scale(1);
     }
 }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+
+    /* 1. Typography Scaling */
+    h1 {
+        font-size: 2.5rem !important;
+    }
+
+    h2 {
+        font-size: 1.8rem !important;
+    }
+
+    p {
+        font-size: 1rem !important;
+    }
+
+    /* 2. Container & Padding */
+    .container {
+        padding: 1rem;
+        justify-content: flex-start;
+        /* Don't center vertically on small screens to avoid cut-off */
+        padding-top: 3rem;
+    }
+
+    /* 3. Cards & Grids */
+    .cards-grid {
+        grid-template-columns: 1fr;
+        /* 1 column on mobile */
+        gap: 15px;
+    }
+
+    .card {
+        padding: 1.5rem;
+    }
+
+    .card-icon {
+        font-size: 2.5rem;
+    }
+
+    /* 4. Form Layouts */
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    #userAge {
+        width: 100% !important;
+        /* Override fixed width */
+        margin-top: 0;
+    }
+
+    input,
+    select,
+    button {
+        padding: 14px;
+        /* Touch-friendly targets */
+    }
+
+    /* 5. Timeline Mobile Adjustments */
+    .timeline-container {
+        padding-left: 1.5rem;
+        margin: 2rem auto;
+        border-left-width: 3px;
+    }
+
+    .event-marker {
+        width: 16px;
+        height: 16px;
+        left: -1.9rem;
+        /* Adjust alignment */
+        top: 22px;
+    }
+
+    .event-content {
+        padding: 1rem;
+    }
+
+    .event-text {
+        font-size: 1rem;
+    }
+}
