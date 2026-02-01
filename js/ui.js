@@ -29,6 +29,9 @@ updateProgress();
 // Event Listeners for Cards
 document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', (e) => {
+        // Prevent multiple clicks if already moving
+        if (card.classList.contains('selected')) return;
+
         // Deselect siblings
         const parent = card.parentElement;
         parent.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
@@ -45,31 +48,45 @@ document.querySelectorAll('.card').forEach(card => {
         if (stepId === 'step2') state.inputs.personality = value;
         if (stepId === 'step3') state.inputs.risk = value;
 
-        // Show Next Button
-        nextContainer.style.opacity = '1';
-        nextContainer.style.pointerEvents = 'all';
-        nextContainer.style.transform = 'translateY(0)';
+        // Auto-Advance after short delay for visual feedback
+        setTimeout(() => {
+            goToNextStep();
+        }, 600);
     });
 });
 
-// Next Button Logic
-if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-        if (state.step < state.totalSteps) {
-            // Move to next step
-            document.getElementById(`step${state.step}`).classList.remove('active');
-            state.step++;
-            document.getElementById(`step${state.step}`).classList.add('active');
+// Logic to move straight to next step
+function goToNextStep() {
+    if (state.step < state.totalSteps) {
+        // Move to next step
+        const currentStepEl = document.getElementById(`step${state.step}`);
+        const nextStepEl = document.getElementById(`step${state.step + 1}`);
 
-            // Reset button
-            nextContainer.style.opacity = '0';
-            nextContainer.style.pointerEvents = 'none';
+        // 1. Animate Out
+        currentStepEl.classList.remove('active');
+        currentStepEl.classList.add('exiting');
+
+        // Wait for animation to finish
+        setTimeout(() => {
+            currentStepEl.classList.remove('exiting');
+            currentStepEl.style.display = 'none'; // Ensure it's gone
+
+            // 2. State Update
+            state.step++;
+
+            // 3. Animate In
+            nextStepEl.style.display = 'block'; // Prepare for animation
+            // Force reflow
+            void nextStepEl.offsetWidth;
+            nextStepEl.classList.add('active');
+
             updateProgress();
-        } else {
-            // Finish Simulation
-            finishSimulation();
-        }
-    });
+        }, 400);
+
+    } else {
+        // Finish Simulation
+        finishSimulation();
+    }
 }
 
 function updateProgress() {
