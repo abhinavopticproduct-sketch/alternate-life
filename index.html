@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alternate Life - Be Anyone</title>
+
+    <!-- Cartoon Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@600;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* CSS to toggle between inputs */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h1 class="fade-in" style="font-size: 3.5rem; line-height: 1.2;">
+                Let’s write <br><span class="text-primary">your story</span> ✨
+            </h1>
+            <p class="fade-in delay-1" style="font-size: 1.2rem; opacity: 0.7; margin-top: 1rem;">
+                One choice changes everything. Who will you be this time?
+            </p>
+        </div>
+
+        <div class="card fade-in delay-2" style="max-width: 500px; margin: 0 auto; width: 100%;">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <span style="font-size: 2rem;">👋</span>
+                <h2 style="margin-top: 0.5rem;">First, introduce yourself</h2>
+            </div>
+
+            <div class="form-row">
+                <input type="text" id="userName" placeholder="Your Name">
+                <input type="number" id="userAge" placeholder="Age" min="1" max="100"
+                    style="width: 100px; flex-shrink: 0;">
+            </div>
+
+            <select id="userCountry" onchange="updateCities()">
+                <option value="" disabled selected>Select Your Country</option>
+                <!-- Populated by JS -->
+            </select>
+
+            <!-- Dynamic City Inputs -->
+            <select id="userCitySelect" disabled class="hidden">
+                <option value="" disabled selected>Select Country First</option>
+            </select>
+            <input type="text" id="userCityInput" placeholder="Enter Your City" class="hidden">
+
+            <button onclick="saveUserInfo()" style="width: 100%; margin-top: 1rem;">Start Adventure 🚀</button>
+        </div>
+
+        <div class="privacy-note fade-in delay-2">
+            🔒 We don’t store personal data on any server. Everything stays on your device.
+        </div>
+
+    </main>
+
+    <script>
+        // Data for major countries
+        const cityData = {
+            "USA": ["New York", "San Francisco", "Austin", "Chicago", "Los Angeles", "Miami", "Seattle"],
+            "Japan": ["Tokyo", "Osaka", "Kyoto", "Fukuoka", "Sapporo", "Nagoya"],
+            "India": ["Mumbai", "Bangalore", "Delhi", "Goa", "Hyderabad", "Chennai"],
+            "Germany": ["Berlin", "Munich", "Hamburg", "Frankfurt", "Cologne"],
+            "UK": ["London", "Manchester", "Edinburgh", "Birmingham", "Liverpool"],
+            "France": ["Paris", "Lyon", "Marseille", "Bordeaux", "Nice"],
+            "Canada": ["Toronto", "Vancouver", "Montreal", "Ottawa", "Calgary"],
+            "Australia": ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide"],
+            "Brazil": ["São Paulo", "Rio de Janeiro", "Brasília", "Salvador"],
+            "China": ["Shanghai", "Beijing", "Shenzhen", "Guangzhou"],
+            "Italy": ["Rome", "Milan", "Naples", "Florence", "Venice"],
+            "Spain": ["Madrid", "Barcelona", "Valencia", "Seville"],
+            "Russia": ["Moscow", "Saint Petersburg", "Novosibirsk"],
+            "South Korea": ["Seoul", "Busan", "Incheon"],
+            "Mexico": ["Mexico City", "Guadalajara", "Monterrey"],
+            "Netherlands": ["Amsterdam", "Rotterdam", "The Hague"],
+            "Sweden": ["Stockholm", "Gothenburg", "Malmö"],
+            "Switzerland": ["Zurich", "Geneva", "Basel"],
+            "Singapore": ["Singapore"],
+            "UAE": ["Dubai", "Abu Dhabi", "Sharjah"]
+        };
+
+        // Comprehensive Country List
+        const allCountries = [
+            "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+            "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia",
+            "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada",
+            "Cape Verde", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia",
+            "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "East Timor", "Ecuador", "Egypt",
+            "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia",
+            "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guyana", "Haiti", "Honduras",
+            "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica",
+            "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "North Korea", "South Korea", "Kuwait", "Kyrgyzstan", "Laos",
+            "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Madagascar",
+            "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia",
+            "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal",
+            "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Norway", "Oman", "Pakistan", "Palau", "Panama",
+            "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda",
+            "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles",
+            "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "Spain", "Sri Lanka", "Sudan",
+            "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Togo",
+            "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "UAE", "UK",
+            "USA", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+        ];
+
+        // Populate Country Dropdown on Load
+        const countrySelect = document.getElementById("userCountry");
+        allCountries.sort().forEach(country => {
+            const option = document.createElement("option");
+            option.value = country;
+            option.innerText = country;
+            countrySelect.appendChild(option);
+        });
+
+        const citySelect = document.getElementById("userCitySelect");
+        const cityInput = document.getElementById("userCityInput");
+
+        // Initial State
+        citySelect.classList.remove('hidden');
+        cityInput.classList.add('hidden');
+
+        function updateCities() {
+            const selectedCountry = countrySelect.value;
+            citySelect.innerHTML = '<option value="" disabled selected>Select City</option>';
+
+            if (selectedCountry && cityData[selectedCountry]) {
+                // Show Dropdown
+                citySelect.classList.remove('hidden');
+                cityInput.classList.add('hidden');
+                citySelect.disabled = false;
+
+                cityData[selectedCountry].forEach(city => {
+                    const option = document.createElement("option");
+                    option.value = city;
+                    option.innerText = city;
+                    citySelect.appendChild(option);
+                });
+            } else {
+                // Show Text Input
+                citySelect.classList.add('hidden');
+                cityInput.classList.remove('hidden');
+                cityInput.value = ""; // Clear previous input
+            }
+        }
+
+        function saveUserInfo() {
+            const name = document.getElementById("userName").value.trim();
+            const age = document.getElementById("userAge").value.trim();
+            const country = document.getElementById("userCountry").value;
+
+            // Determine which city input to use
+            let city;
+            if (!citySelect.classList.contains('hidden')) {
+                city = citySelect.value;
+            } else {
+                city = cityInput.value.trim();
+            }
+
+            if (!name || !country || !city) {
+                // age is optional or defaults to 18 logic if empty? 
+                // Let's enforce it based on previous request "ask for the age"
+                if (!age) {
+                    alert("Please enter your age!");
+                    return;
+                }
+                alert("Please fill in all fields!");
+                return;
+            }
+
+            const user = {
+                name: name,
+                age: parseInt(age, 10),
+                city: city,
+                country: country
+            };
+
+            localStorage.setItem("userInfo", JSON.stringify(user));
+            // Animate out
+            document.querySelector('.card').style.transform = "scale(1.1) translateY(-20px)";
+            document.body.style.opacity = 0;
+            document.body.style.transition = "opacity 0.5s ease";
+
+            setTimeout(() => {
+                window.location.href = "simulate.html";
+            }, 500);
+        }
+    </script>
+</body>
+
+</html>

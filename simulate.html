@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alternate Life - Simulation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@600;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <main class="container">
+
+        <!-- Progress Bar -->
+        <div class="progress-container fade-in">
+            <span style="font-weight: 700; color: var(--primary); letter-spacing: 1px;">PHASE <span
+                    id="currentStepNum">1</span> / 3</span>
+            <div class="progress-bar-wrapper">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- Step 1: Career (Formerly Step 2) -->
+        <div class="step active" id="step1" data-step="1">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2rem;">What’s your calling?</h2>
+                <p style="opacity: 0.6;">Pick a path.</p>
+            </div>
+            <div class="cards-grid" id="careerOptions">
+                <div class="card" data-value="Engineer">
+                    <div class="card-icon">💻</div>
+                    <h3 class="card-title">Engineer</h3>
+                    <p class="card-desc">Building the future.</p>
+                </div>
+                <div class="card" data-value="Artist">
+                    <div class="card-icon">🎨</div>
+                    <h3 class="card-title">Artist</h3>
+                    <p class="card-desc">Creating beauty.</p>
+                </div>
+                <div class="card" data-value="Entrepreneur">
+                    <div class="card-icon">🚀</div>
+                    <h3 class="card-title">Founder</h3>
+                    <p class="card-desc">Risking it all.</p>
+                </div>
+                <div class="card" data-value="Doctor">
+                    <div class="card-icon">🩺</div>
+                    <h3 class="card-title">Doctor</h3>
+                    <p class="card-desc">Saving lives.</p>
+                </div>
+                <div class="card" data-value="Lawyer">
+                    <div class="card-icon">⚖️</div>
+                    <h3 class="card-title">Lawyer</h3>
+                    <p class="card-desc">Seeking justice.</p>
+                </div>
+                <div class="card" data-value="Chef">
+                    <div class="card-icon">🍳</div>
+                    <h3 class="card-title">Chef</h3>
+                    <p class="card-desc">Culinary artist.</p>
+                </div>
+                <div class="card" data-value="Athlete">
+                    <div class="card-icon">🏆</div>
+                    <h3 class="card-title">Athlete</h3>
+                    <p class="card-desc">Peak performance.</p>
+                </div>
+                <div class="card" data-value="Scientist">
+                    <div class="card-icon">🔬</div>
+                    <h3 class="card-title">Scientist</h3>
+                    <p class="card-desc">Unlocking secrets.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Personality (Formerly Step 3) -->
+        <div class="step" id="step2" data-step="2">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2rem;">Your vibe?</h2>
+            </div>
+            <div class="cards-grid" id="personalityOptions">
+                <div class="card" data-value="Introvert">
+                    <div class="card-icon">🌑</div>
+                    <h3 class="card-title">Quiet</h3>
+                    <p class="card-desc">Deep thinker.</p>
+                </div>
+                <div class="card" data-value="Ambivert">
+                    <div class="card-icon">🌗</div>
+                    <h3 class="card-title">Balanced</h3>
+                    <p class="card-desc">Adaptable.</p>
+                </div>
+                <div class="card" data-value="Extrovert">
+                    <div class="card-icon">🌕</div>
+                    <h3 class="card-title">Social</h3>
+                    <p class="card-desc">Life of the party.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Risk Level (Formerly Step 4) -->
+        <div class="step" id="step3" data-step="3">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2rem;">How risky?</h2>
+            </div>
+            <div class="cards-grid" id="riskOptions">
+                <div class="card" data-value="Safe">
+                    <div class="card-icon">🛡️</div>
+                    <h3 class="card-title">Safe</h3>
+                    <p class="card-desc">Slow & steady.</p>
+                </div>
+                <div class="card" data-value="Balanced">
+                    <div class="card-icon">⚖️</div>
+                    <h3 class="card-title">Measured</h3>
+                    <p class="card-desc">Calculated.</p>
+                </div>
+                <div class="card" data-value="High">
+                    <div class="card-icon">🎲</div>
+                    <h3 class="card-title">Wild</h3>
+                    <p class="card-desc">All or nothing.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="next-btn-container" id="nextContainer"
+            style="text-align: center; margin-top: 2rem; opacity: 0; pointer-events: none; transition: all 0.3s ease;">
+            <button id="nextBtn" style="font-size: 1.2rem; padding: 1rem 3rem;">Confirm Choice ✨</button>
+        </div>
+
+    </main>
+
+    <!-- Scripts loaded in order -->
+    <script src="js/data.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/ui.js"></script>
+</body>
+
+</html>
